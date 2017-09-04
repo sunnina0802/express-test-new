@@ -1,0 +1,262 @@
+
+
+
+{{#section 'head'}}
+    <meta  name="robots"  content="noindex">
+
+{{/section}}
+<div class="container" >
+
+    <h3 class="featurette-heading" >请完善您的个人信息</h3>
+    <hr class="featurette-divider">
+
+    <form class="form-horizontal"
+          action="/users/profile"
+          method="POST"
+          id="information">
+
+        <div class="form-group">
+            <label for="tel" class="col-sm-2 control-label">手机号码</label>
+            <div class="col-sm-5">
+                <input type="tel"
+                       name="tel"
+                       class="col-sm-6 form-control"
+                       id="tel"
+                       value="{{user.tel}}"
+                       readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="username"
+                       class="col-sm-6 form-control"
+                       id="username"
+                       placeholder="username"
+                       value="{{user.username}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">邮箱</label>
+            <div class="col-sm-5">
+                <input type="email"
+                       name="email"
+                       class="col-sm-6 form-control"
+                       id="email"
+                       placeholder="email"
+                       value="{{user.email}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="realname" class="col-sm-2 control-label">真实姓名</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="realname"
+                       class="col-sm-6 form-control"
+                       id="realname"
+                       placeholder="realname"
+                       value="{{user.realname}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="age" class="col-sm-2 control-label">年龄</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="age"
+                       class="col-sm-6 form-control"
+                       id="age"
+                       placeholder="age"
+                       value="{{user.age}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="nickname" class="col-sm-2 control-label">昵称</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="nickname"
+                       class="col-sm-6 form-control"
+                       id="nickname"
+                       placeholder="nickname"
+                       value="{{user.nickname}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">性别</label>
+            <div class="col-sm-5">
+
+                <input type="radio"
+                       name="gender"
+                       id = "female"
+                       value="0">
+                <label for="female">女</label>&nbsp &nbsp &nbsp
+
+                <input type="radio"
+                       name="gender"
+                       id = "male"
+                       value="1">
+                <label for="male">男</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="address" class="col-sm-2 control-label">地址</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="address"
+                       class="col-sm-6 form-control"
+                       id="address"
+                       placeholder="address"
+                       value="{{user.address}}">
+            </div>
+        </div>
+
+
+        <div class="form-group" style="margin-left: 350px">
+            <button type="button" class="btn btn-primary " onclick="checkInfo()">提交</button>
+        </div>
+    </form>
+</div>
+
+
+<!-------------个人信息展示---------------->
+{{#if year}}
+
+<div class="container">
+    <form class="form-horizontal"
+          role="form"
+          enctype="multipart/form-data"
+          method="POST"
+          action="/users/upload-profile/{{user.tel}}/{{year}}/{{month}}/{{timestr}}">
+
+
+        <div class="form-group">
+            <img src="{{user.picture}}" alt="" style="width: 100px" height="100px">
+
+            <label for="fieldPhoto" class="col-sm-2 control-label">头像</label>
+            <div class="col-sm-4">
+                <input  type="file"
+                        class="form-control"
+                        required
+                        accept="image/*"
+                        id="fieldPhoto"
+                        name="photo">
+                <input type="hidden"
+                       name="phone"
+                       value="{{phone}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit"
+                        class="btn btn-primary">图片上传</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{{/if}}
+
+<!------------------------信息展示end---------------->
+{{#section 'customjs'}}
+
+<script>
+    function checkInfo() {
+        var ret = true;
+
+        if(!validator.isAlpha($("#username").val()))
+        {
+            ret=false;
+            alert('用户名格式错误，请重新输入');
+            $("#username").focus();
+        }
+
+        if(!validator.isEmail($("#email").val()))
+        {
+            ret=false;
+            alert('邮箱格式有误，请重新输入');
+            $("#email").focus();
+        }
+
+        if(!validator.isAlpha($("#realname").val()))
+        {
+            ret=false;
+            alert('姓名输入有误，请重新输入');
+            $("#realname").focus();
+        }
+
+        if(!validator.isNumeric($("#age").val()))
+        {
+            ret=false;
+            alert('年龄输入有误，请重新输入');
+            $("#age").focus();
+        }
+
+        if(!validator.isAlpha($("#nickname").val()))
+        {
+            ret=false;
+            alert('昵称输入有误，请重新输入');
+            $("#nickname").focus();
+        }
+
+        if(!validator.isLength($("#address").val(),{min:10,max:25}))
+        {
+            ret=false;
+            alert('地址输入有误，请重新输入');
+            $("#address").focus();
+        }
+
+        //return ret;
+        if(ret){
+            sub();
+        }
+
+    }
+
+    function sub() {
+        var para  = $("#information").serialize();
+        alert(para);
+        $.ajax({
+            url:'/users/profile-save',
+            type: 'POST',
+            async:true,
+            data:para,
+            success: function(res)
+            {
+                if(res.captchaErrorMsg)
+                {
+                    $("#ErrorMsg,#ErrorMsg-panle").show();
+                    $("#ErrorMsg").html(res.captchaErrorMsg);
+                }
+
+
+                if(parseInt(res.code)==1)
+                {
+                    window.location.href=res.url;
+                }
+
+            }
+        });
+    };
+
+
+    var gender = {{user.gender}}
+    $(function () {
+        if(parseInt(gender)==1){
+            $('#male').attr('checked','checked')
+        }
+        if (parseInt(gender)==0){
+            $('#female').attr('checked','checked')
+        }
+
+    });
+
+
+
+</script>
+
+{{/section}}

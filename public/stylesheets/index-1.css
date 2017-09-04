@@ -1,0 +1,88 @@
+@charset "UTF-8";
+#footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 4em 0;
+}
+#footer .section-title {
+  font-size: 24px;
+  font-weight: 400;
+}
+#footer ul {
+  margin: 0;
+  padding: 0;
+}
+#footer ul li {
+  font-size: 18px;
+  list-style: none;
+  margin-bottom: 0;
+}
+#footer ul li a {
+  color: #727272;
+}
+#footer .float {
+  width: 50%;
+  float: left;
+}
+@media screen and (max-width: 768px) {
+  #footer .float {
+    width: 100%;
+  }
+}
+#footer .copy-right {
+  padding-top: 4em;
+}
+#footer a {
+  color: black;
+}
+#footer a:hover, #footer a:focus {
+  text-decoration: none;
+  color: #539DDB;
+}
+#footer .form-inline .form-group {
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+#footer .form-inline .form-group .form-control {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+}
+#footer #fh5co-header-subscribe #email {
+  padding-right: 4em;
+}
+#footer #fh5co-header-subscribe button {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  background: #539DDB;
+  border: none;
+}
+#footer #fh5co-header-subscribe button i {
+  color: #fff;
+  font-size: 25px;
+}
+
+/*---------*/
+main{
+  min-height: 800px;
+  margin-top: 50px;
+}
+#to_back{
+  position: fixed;
+  bottom:30px;
+  width: 80px;
+  cursor:pointer;
+  display:none;
+}
+.navbar-nav a {
+  outline: 0;
+}
+.mod-margin{
+  margin-top: 50px;
+}

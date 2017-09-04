@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <base href="/">
+    <title>Project Name::::系统管理->登录</title>
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/offcanvas.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="stylesheets/dist/grunt-mehn-obj.css">
+
+
+</head>
+
+<body>
+
+<section class="container-fluid">
+    <fieldset class="panel panel-primary">
+        <legend class="panel-heading">管理员登录</legend>
+            <form name="loginForm"
+                  id="signinForm"
+                  class="panel-body form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">登录名 :</label>
+                    <div class="col-sm-10">
+                        <input class="form-control"
+                               type="text"
+                               placeholder="请输入登录名"
+                               name="loginname"
+                               id="loginname"
+                               required>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"> 密&nbsp; &nbsp; 码 :</label>
+                    <div class="col-sm-10">
+                        <input class="form-control"
+                               type="password"
+                               placeholder="请输入密码"
+                               name="pwd"
+                               id="pwd"
+                               required>
+                    </div>
+                </div>
+                <div class="form-group text-left" id="ErrorMsg-panle">
+                    <label class="col-sm-2 control-label"> </label>
+                    <div class="col-sm-10">
+                        <span id="ErrorMsg" class="alert alert-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"> </label>
+                    <div class="col-sm-10">
+
+
+
+                        <input type="button"
+                               value="登录"
+                               onclick="validatorForm();"
+                               id="btn-submit"
+                               class="btn btn-default">
+                        &nbsp;&nbsp;
+                        <input class="btn btn-default"
+                               type="reset" value="取消" >
+                    </div>
+                </div>
+            </form>
+    </fieldset>
+</section>
+
+<script src="vendor/jquery/dist/jquery.min.js"></script>
+<script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="vendor/highcharts/highcharts.js"></script>
+<script src="vendor/highcharts/modules/exporting.js"></script>
+<script src="vendor/highcharts/modules/data.js"></script>
+<script src="vendor/highcharts/modules/drilldown.js"></script>
+<script src="vendor/validator/validator.min.js"></script>
+<script src="./vendor/validator-js/validator.min.js"></script>
+<script>
+    //点击登录提交按钮
+    $(function () {
+        //默认加载时隐藏错误信息块
+        $("#ErrorMsg,#ErrorMsg-panle").hide();
+    });
+    function validatorForm() {
+        var ret = true;
+        if(validator.isEmpty($("#loginname").val())){
+            ret = false;
+            alert("登录名不能为空！");
+            $("#loginname").focus();
+            return false;
+        }
+
+        if(validator.isEmpty($("#pwd").val())){
+            ret = false;
+            alert("密码不能为空！");
+            $("#pwd").focus();
+            return false;
+        }
+
+
+        if(ret)  signin();
+    }
+
+    //登录方法
+    function signin() {
+        var para  = $("#signinForm").serialize();
+        $.ajax({
+            url:'/manage',
+            type: 'POST',
+            async:true,
+            data:para,
+            success: function(data)
+            {
+                if(parseInt(data.code)==0)
+                {
+                    $("#ErrorMsg,#ErrorMsg-panle").show();
+                    $("#ErrorMsg").html(data.errorMsg);
+                    $("#loginname").val('');
+                    $("#loginname").focus();
+                }
+                if(parseInt(data.code)==1)
+                {
+                    window.location.href=data.url;
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

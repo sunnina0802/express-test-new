@@ -1,0 +1,102 @@
+{{#section 'head'}}
+    <meta  name="robots"  content="noindex">
+
+{{/section}}
+<div class="container" style="margin-left: 12%">
+
+    <hr class="featurette-divider">
+
+    <form class="form-horizontal"
+          action="/users/cmsupdate"
+          method="POST"
+          id="cmsinfo">
+
+        <div class="form-group">
+            <label for="title" class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="title"
+                       class="col-sm-6 form-control"
+                       id="title"
+                       value="">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="content" class="col-sm-2 control-label">Content</label>
+            <div class="col-sm-5">
+                <textarea type="text"
+                          name="content"
+                          class="col-sm-6 form-control"
+                          id="content"
+                          value=""></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="authorid" class="col-sm-2 control-label">Authorid</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       name="authorid"
+                       class="col-sm-6 form-control"
+                       id="authorid"
+                       value="">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-left: 350px">
+            <a class="btn btn-default" role="button" href="users/cms">取消</a>
+            <button type="button" class="btn btn-primary" onclick="checkCms()">提交</button>
+        </div>
+    </form>
+</div>
+
+
+
+{{#section 'customjs'}}
+
+    <script>
+        function checkCms() {
+            var ret = true;
+
+            if(!validator.isMobilePhone($("#authorid").val(), 'zh-CN'))
+            {
+                ret=false;
+                alert('authorld格式错误，请重新输入');
+                $("#authorld").focus();
+            }
+
+            //return ret;
+            if(ret){
+                cmsSub();
+            }
+
+        }
+
+        function cmsSub() {
+            var para  = $("#cmsinfo").serialize();
+            alert(para);
+            $.ajax({
+                url:'/users/newCMS',
+                type: 'POST',
+                async:true,
+                data:para,
+                success: function(res)
+                {
+                    if(res.captchaErrorMsg)
+                    {
+                        $("#ErrorMsg,#ErrorMsg-panle").show();
+                        $("#ErrorMsg").html(res.captchaErrorMsg);
+                    }
+
+                    if(parseInt(res.code)==1)
+                    {
+                        window.location.href=res.url;
+                    }
+                }
+            });
+        }
+    </script>
+
+{{/section}}

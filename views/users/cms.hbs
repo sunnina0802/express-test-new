@@ -1,0 +1,140 @@
+{{#section 'head'}}
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="vendor/datatables/css/dataTables.bootstrap.min.css">
+{{/section}}
+
+<p><a class="btn btn-primary" role="button" href="users/cmsadd" style="margin-bottom: 15px" >Add article</a></p>
+
+<table id="cmslist"
+       class="table table-striped table-bordered"
+       cellspacing="0"
+       width="100%">
+
+</table>
+
+<!--删除信息-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">删除</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal"
+                      action="/users/cms-del"
+                      method="POST"
+                      id="delcms">
+
+                    <div class="form-group">
+                        <label for="title" class="col-sm-8">确定删除此文章？</label>
+                        <div class="col-sm-5">
+                            <input
+                                   name="title"
+                                   class="col-sm-6 form-control"
+                                   id="delInput">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="delCms()">确定</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{{#section 'customjs'}}
+
+    <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script>
+
+        var arr = [];
+            {{#each data}}
+            var cms = {};
+            cms.title = '{{title}}';
+            cms.content = '{{content}}';
+            cms.pictureurl = '{{pictureurl}}';
+            cms.authorid = '{{authorid}}';
+            cms._id = '{{_id}}';
+            arr.push(cms);
+            {{/each}}
+
+        function getCmsArr(arr) {
+            var _userCms = arr;
+
+            var cmsData=[];
+            _userCms.map(function (item) {
+                var _arr = new Array();
+                _arr[0] = item.title;
+                _arr[1] = item.content;
+                _arr[2] = '<img src="' + item.pictureurl + '"style= "height:50px"/>';
+                _arr[3] = item.authorid;
+                _arr[4] = '<button class="btn btn-default btn-sm" \
+                         onclick="editCms(\'' + item._id + '\')"> \
+                     <span class="glyphicon glyphicon-pencil"></span></button> \
+            <button class="btn btn-danger btn-sm" data-toggle="modal" \
+                 data-target="#deleteModal" onclick= getCmsTitle("' + item.title + '")> \
+                <span class="glyphicon glyphicon-trash"></span> \
+            </button>';
+                cmsData.push(_arr);
+            });
+            return cmsData;
+        }
+
+
+
+        function renderTable (_userSet) {
+
+            $('#cmslist').DataTable({
+                data: _userSet,
+                columns: [
+                    {title: "title"},
+                    {title: "content"},
+                    {title: "pictureurl"},
+                    {title: "authorid"},
+                    {title: "操作", orderable: false}
+                ]
+            });
+
+        }
+
+        $(function () {
+            var _userSet = getCmsArr(arr);
+            renderTable (_userSet);
+
+        });
+
+        function editCms(id) {
+            window.location.href = "/users/" + id + '/cmsupdate';
+        }
+
+        function getCmsTitle(id) {
+            $('#delInput').val(id);
+        }
+
+
+        function delCms() {
+            var para = $("#delcms").serialize();
+            $.ajax({
+                url: '/users/cms-del',
+                type: 'POST',
+                async: true,
+                data: para,
+                success: function (res) {
+                    window.location.href = res.url;
+                }
+            });
+        }
+
+        <!--cmsadd-->
+
+
+    </script>
+
+{{/section }}

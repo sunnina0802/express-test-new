@@ -1,0 +1,10 @@
+
+
+<h1>discount (折扣)</h1>
+<p style="color:gre">这部分是局部（partials):是指部份页面的公共部份</p>
+{{#each partials.discountContext.locations}}
+    <div class="text-red">
+        product: {{product}}<br>
+        price:{{price}}
+    </div>
+{{/each}}

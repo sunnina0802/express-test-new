@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+
+ .tb-2, .txwb-2, .wx-2, .zfb-2, .zf-2, .github, .kongjian, .douban, .rr-2, .qq-2, .xlwb-2, .momo-2, .pyq-2{
+	background: url(../images/sprites-china.png) no-repeat;
+}
+.share{
+	padding: 0;
+	margin: 100px auto;
+	font-size: 0;
+}
+.share>li{
+	margin: 10px ;
+	padding: 0;
+	list-style: none;
+	display: inline-block;
+
+}
+
+
+/*--------------腾讯微博*/
+.txwb-2{
+	background-position: -520px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.txwb-2:hover{
+	background-position: -516px 0;
+}
+/*----------------------微信*/
+.wx-2{
+	background-position: -456px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.wx-2:hover{
+	background-position: -452px 0;
+}
+/*------------------------支付宝*/
+.zfb-2{
+	background-position: -267px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.zfb-2:hover{
+	background-position: -264px 0;
+}
+
+/*--------------------------知乎*/
+.zf-2{
+	background-position: -330px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.zf-2:hover{
+	background-position: -328px 0;
+}
+/*---------------------------github*/
+.github{
+	background-position: -136px -110px ;
+	width: 50px;
+	height: 48px;
+}
+.github:hover{
+	background-position: -133px 0;
+}
+/*------------------------------qq空间*/
+.kongjian{
+	background-position: -704px -110px ;
+	width: 50px;
+	height: 48px;
+}
+.kongjian:hover{
+	background-position: -700px 0;
+}
+/*---------------------------------豆瓣*/
+.douban{
+	background-position: -197px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.douban:hover{
+	background-position: -198px 0;
+}
+/*-------------------------------人人网*/
+.rr-2{
+	background-position: -644px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.rr-2:hover{
+	background-position: -639px 0;
+}
+
+/*-----------------------------QQ*/
+.qq-2{
+	background-position: -766px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.qq-2:hover{
+	background-position: -763px 0;
+}
+
+/*-------------------------新浪微博*/
+.xlwb-2{
+	background-position: -392px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.xlwb-2:hover{
+	background-position: -392px 0;
+}
+
+/*----------------------------陌陌*/
+.momo-2{
+	background-position: 0 -110px ;
+	width: 48px;
+	height: 48px;
+}
+.momo-2:hover{
+	background-position: 0 0;
+}
+
+/*----------------------------朋友圈*/
+.pyq-2{
+	background-position: -65px -110px ;
+	width: 48px;
+	height: 48px;
+}
+.pyq-2:hover{
+	background-position: -65px 0;
+}
+

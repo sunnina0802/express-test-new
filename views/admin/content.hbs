@@ -1,0 +1,352 @@
+{{#section 'head'}}
+    <link rel="stylesheet" href="vendor/datatables/css/dataTables.bootstrap.min.css">
+    <style>
+        .profileForm>div{
+            margin-bottom: 10px;
+        }
+    </style>
+{{/section}}
+<br><br><br>
+<table id="example1"
+       class="table table-striped table-bordered"
+       cellspacing="0"
+       width="100%">
+</table>
+
+<button data-toggle="modal" data-target="#addBox">Add article</button>
+
+<!--添加信息-->
+<div class="modal fade" id="addBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal profileForm"
+                      action="/admin/add"
+                      method="POST"
+                      id="addForm"
+                >
+
+                    <div>
+                        <label>城市</label>
+                        <input type="text"
+                               name="cityname"
+                               class="form-control"
+                               placeholder="城市"
+                               id="cityName"
+                        >
+                        <div class="cityName" style="color:red;"></div>
+                    </div>
+                    <div>
+                        <label>拼写</label>
+                        <input type="text"
+                               name="spllname"
+                               class="form-control"
+                               placeholder="拼写"
+                               id="spllName"
+                               value=""
+                        >
+                    </div>
+                    <div>
+                        <label>简写编码</label>
+                        <input type="text"
+                               name="arfa"
+                               class="form-control"
+                               placeholder="简写编码"
+                               id="arfa"
+                               value=""
+                        >
+                    </div>
+                    <div>
+                        <label>邮政编码</label>
+                        <input type="text"
+                               name="postalCode"
+                               class="form-control"
+                               placeholder="邮政编码"
+                               id="postalCode"
+                               value=""
+                        >
+                        <div class="postalCode" style="color:red;"></div>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" id="addBtn">确认提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑信息-->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal profileForm"
+                      action="/admin/edit"
+                      method="POST"
+                      id="editForm"
+                >
+
+                    <div>
+                        <label>城市</label>
+                        <input type="text"
+                               name="cityname"
+                               class="form-control"
+                               placeholder="城市"
+                               id="edCityName"
+                               value=""
+                        >
+                    </div>
+                    <div>
+                        <label>拼写</label>
+                        <input type="text"
+                               name="spllname"
+                               class="form-control"
+                               placeholder="拼写"
+                               id="edSpllName"
+                               value=""
+                        >
+                    </div>
+                    <div>
+                        <label>简写编码</label>
+                        <input type="text"
+                               name="arfa"
+                               class="form-control"
+                               placeholder="简写编码"
+                               id="edArfa"
+                               value=""
+                        >
+                    </div>
+                    <div>
+                        <label>邮政编码</label>
+                        <input type="text"
+                               name="postalCode"
+                               class="form-control"
+                               placeholder="邮政编码"
+                               id="editPostalCode"
+                               value=""
+                        >
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" onclick="editCity()" id="editBtn">确认编辑</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--删除信息-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">删除</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal"
+                      action="/admin/del-city"
+                      method="POST"
+                      id="delForm">
+
+                    <div class="form-group" style="display: block">
+                        <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="postalCode"
+                                   class="form-control"
+                                   id="delInput"
+                                   placeholder="邮政编码">
+                            <div id="ErrorMsg" class="help-block" style="color:red;"><p id="ErrorMsg-panle"></p></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;text-align: center;color: red;">点击删除将永久数据，是否确定删除？</div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                        <button type="button" class="btn btn-primary" id="delBtn" onclick="delCity()">确定删除</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'customjs'}}
+    <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            //获取数据生成list
+            $.ajax({
+                url: '/manage/getCityData',
+                type: 'POST',
+                async: true,
+                success: function (res) {
+
+                    var citys=res.data;
+                    function getUserArr() {
+                        var _userArr = citys;
+                        var jsoncount = _userArr.length;
+                        var userData = new Array();
+                        var num=0;
+                        for (var i = 0; i < jsoncount; i++) {
+                            num++;
+                            var _arr = new Array();
+                            _arr[0] = _userArr[i].cityname;
+                            _arr[1] = _userArr[i].spllname;
+                            _arr[2] = _userArr[i].arfa;
+                            _arr[3] = _userArr[i].postalCode;
+                            _arr[4] = '<button class="btn btn-default btn-sm" \
+        data-toggle="modal" data-target="#edit" id="#edit" onclick="edit(\'' + _userArr[i].postalCode + '\',\'' + _userArr[i].cityname + '\',\'' + _userArr[i].spllname + '\',\'' + _userArr[i].arfa + '\')"> \
+<span class="glyphicon glyphicon-pencil"></span> \
+    </button>  \
+<button class="btn btn-danger btn-sm" data-toggle="modal" \
+data-target="#deleteModal" onclick="edit(\'' + _userArr[i].postalCode + '\')"> \
+<span class="glyphicon glyphicon-trash"></span> \
+    </button>';
+                            userData[i] = _arr;
+                        }
+                        return userData;
+                    }
+
+                    var _userSet = getUserArr();
+                    $(document).ready(function () {
+                        $('#example1').DataTable({
+                            data: _userSet,
+                            columns: [
+                                {title: "城市"},
+                                {title: "拼写"},
+                                {title: "简写编码"},
+                                {title: "邮政编码"},
+                                {title: "操作", orderable: false}
+                            ]
+                        })
+                    })
+                    //失去焦点验证
+                    $("#cityName,#postalCode,#spllName,#arfa").blur(function(){
+                        checkaa();
+                    });
+                    $("#cityName,#postalCode,#spllName,#arfa").focus(function(){
+                        $(this).next().html("");
+                    });
+                    function checkaa(){
+                        for(var i=0;i<citys.length;i++){
+                            if($("#cityName").val()==citys[i].cityname){
+                                $(".cityName").html("城市名已经存在");
+                            };
+                            if($("#postalCode").val()==citys[i].postalCode){
+                                $(".postalCode").html("邮政邮编已经存在");
+                            };
+                        }
+                        if (!validator.isAlpha($('#spllName').val())&&$('#spllName').val().length>0) {
+                            var hint='<div class="cityName" style="color:red;">'+'只能为字母'+'</div>';
+                            $('#spllName').after(hint);
+                        }
+                        if (!validator.isAlpha($('#arfa').val())&&$('#arfa').val().length>0) {
+                            var hint='<div class="cityName" style="color:red;">'+'只能为字母'+'</div>';
+                            $('#arfa').after(hint);
+                        }
+                    }
+                    /*点击提交*/
+                    $("#addBtn").click(function(){
+                        var blr=true;
+                        for(var i=0;i<citys.length;i++){
+                            if($("#cityName").val()==citys[i].cityname){
+                                $(".cityName").html("城市名已经存在");
+                                blr=false;
+                            }
+                            if($("#postalCode").val()==citys[i].postalCode){
+                                $(".postalCode").html("邮政邮编已经存在");
+                                blr=false;
+                            }
+                        }
+                        if(blr==true){add()}
+                        else{alert("表单信息有误")}
+                    });
+
+
+                    /*提交数据 */
+                    function add() {
+                        var para = $("#addForm").serialize();//获取表单内所有input框里的内容
+                        alert(para);
+                        $.ajax({
+                            url: '/manage/add',
+                            type: 'POST',
+                            async: true,
+                            data: para,
+                            success: function (res) {
+                                window.location.href = res.url;
+                            }
+                        });
+                    }
+                }
+            });
+        })
+
+
+
+        //获取弹出框中value值
+        function edit(id,aa,bb,cc) {
+            $("#editPostalCode").val(id);
+            $("#delInput").val(id);
+            //编辑框中默认valu值
+            $("#edCityName").val(aa);
+            $("#edSpllName").val(bb);
+            $("#edArfa").val(cc);
+        }
+
+        //删除数据ajax
+        function delCity() {
+            var para = $("#delForm").serialize();
+            $.ajax({
+                url: '/manage/del-city',
+                type: 'POST',
+                async: true,
+                data: para,
+                success: function (res) {
+                    window.location.href = res.url;
+                }
+            });
+        }
+
+
+        //编辑数据ajax
+        function editCity() {
+            var para = $("#editForm").serialize();
+            alert(para);
+            $.ajax({
+                url: '/manage/edit',
+                type: 'POST',
+                async: true,
+                data: para,
+                success: function (res) {
+                    if (parseInt(res.code) == 1) {
+                        /*alert(res.url);*/
+                        window.location.href = res.url;
+                    }
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+    </script>
+{{/section}}
